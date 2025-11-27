@@ -1,15 +1,9 @@
 import { Pressable, Text } from "react-native";
 
-const AppButton = ({ title, onPress, color, pressedColor, marginLeft, marginRight, padding, flex }) => {
+const AppButton = ({ title, onPress, color, pressedColor, styles, flex }) => {
     return (
         <Pressable
         onPress={onPress}
-        color={color}
-        marginLeft={marginLeft}
-        marginRight={marginRight}
-        pressedColor={pressedColor}
-        padding={padding}
-        flex={flex}
         style={({pressed}) => [
             {
                 backgroundColor: pressed ? pressedColor : color,
@@ -17,10 +11,10 @@ const AppButton = ({ title, onPress, color, pressedColor, marginLeft, marginRigh
                 paddingHorizontal: 20,
                 borderRadius: 10,
                 alignItems: "center",
-                marginVertical: 20,
-                marginHorizontal: 5,
+                marginTop: 20,
                 flex: flex
-            }
+            },
+            styles
         ]}
         >
             <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>

@@ -28,20 +28,24 @@ const AddNoteModal = ({
           />
           <View style={styles.modalButtons}>
             <AppButton
-              style={styles.saveBtn}
               onPress={addNote}
               color={"#04d22dff"}
               pressedColor={"#019c20ff"}
               title="Save"
               flex={1}
+              styles={{
+                marginRight: 2
+              }}
             />
             <AppButton
-              style={styles.cancelBtn}
               onPress={() => setModalVisible(false)}
               color={"#d2041cff"}
               pressedColor={"#a20315ff"}
               title="Cancel"
               flex={1}
+              styles={{
+                marginLeft: 2
+              }}
             />
           </View>
         </View>
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     fontSize: 16,
-    marginBottom: 15,
+    marginBottom: 5,
   },
   modalButtons: {
     flexDirection: "row",
