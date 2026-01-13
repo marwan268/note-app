@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
 import AddNoteModal from "../../components/AddNoteModal.jsx";
-import AppButton from "../../components/AppButton.jsx"; 
+import AppButton from "../../components/AppButton.jsx";
 import NoteList from "../../components/NoteList.jsx";
 import noteService from "../../services/noteService.js";
-
 
 const NoteScreen = () => {
   const [notes, setNotes] = useState([]);
@@ -21,25 +20,25 @@ const NoteScreen = () => {
     setLoading(true);
     const response = await noteService.getNotes();
 
-    if(response.error) {
+    if (response.error) {
       setError(response.error);
-      Alert.alert('Error', response.error);
-    }else {
+      Alert.alert("Error", response.error);
+    } else {
       setNotes(response.data);
       setError(null);
     }
     setLoading(false);
   };
-  
+
   //Add new note
   const addNote = async () => {
     if (newNote.trim() === "") return;
-    const response = await noteService.addNote(newNote)
+    const response = await noteService.addNote(newNote);
 
-    if(response.error) {
-      Alert.alert("Error", response.error)
-    }else {
-      setNotes([...notes, response.data])
+    if (response.error) {
+      Alert.alert("Error", response.error);
+    } else {
+      setNotes([...notes, response.data]);
     }
 
     setNewNote("");
@@ -47,36 +46,49 @@ const NoteScreen = () => {
   };
 
   const deleteNote = (id) => {
-  Alert.alert(
-    'Delete Note',
-    'Are you sure you want to delete this note?',
-    [
-      { text: 'Cancel', style: 'cancel' },
+    Alert.alert("Delete Note", "Are you sure you want to delete this note?", [
+      { text: "Cancel", style: "cancel" },
       {
-        text: 'Delete',
-        style: 'destructive',
+        text: "Delete",
+        style: "destructive",
         onPress: async () => {
           const response = await noteService.deleteNote(id);
-          if(response.error) {
-            Alert.alert('Error', response.error);
+          if (response.error) {
+            Alert.alert("Error", response.error);
           } else {
             setNotes(notes.filter((note) => note.$id !== id));
             setModalVisible(false);
           }
-        }
-      }
-    ]
-  );
-};
+        },
+      },
+    ]);
+  };
+
+  const editNote = async (id, newText) => {
+    if (!newText.trim()) {
+      Alert.alert("Error", "Note can not be emmpty");
+      return;
+    }
+    const response = await noteService.updatNote(id, newText);
+    if (response.error) {
+      Alert.alert("Error", response.error);
+    } else {
+      setNotes((prevNotes) =>
+        prevNotes.map((note) =>
+          note.$id === id ? { ...note, text: response.data.text } : note
+        )
+      );
+    }
+  };
   return (
     <View style={styles.container}>
       {loading ? (
-        <ActivityIndicator size='large' color="#007bff" />
+        <ActivityIndicator size="large" color="#007bff" />
       ) : (
-            <>
-              {error && <Text style={styles.errorText}>{error}</Text>}
-              <NoteList notes={notes} onDelete={deleteNote}/>
-            </>
+        <>
+          {error && <Text style={styles.errorText}>{error}</Text>}
+          <NoteList notes={notes} onDelete={deleteNote} onEdit={editNote} />
+        </>
       )}
       <AppButton
         onPress={() => setModalVisible(true)}
@@ -107,10 +119,10 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   errorText: {
-    color: 'red',
-    textAlign: 'center',
+    color: "red",
+    textAlign: "center",
     marginBottom: 10,
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });
 export default NoteScreen;

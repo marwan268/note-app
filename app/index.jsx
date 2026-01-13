@@ -1,7 +1,7 @@
-  import { StyleSheet, Text, View, Image} from "react-native";
-  import { router } from "expo-router";
-  import AppButton from "../components/AppButton.jsx";
-  import PostItImage from '@/assets/images/sticky-notes.png'
+  import PostItImage from '@/assets/images/sticky-notes.png';
+import { router } from "expo-router";
+import { Image, StyleSheet, Text, View } from "react-native";
+import AppButton from "../components/AppButton.jsx";
   
   export const options = {
     title: "Home",
@@ -14,7 +14,7 @@
         <Text style={styles.title}>Welcome Marwan</Text>
         <Text style={styles.subtitle}>Take notes whenever you want</Text>
         <AppButton 
-          title="Get Started" 
+          title="Notes" 
           color={"#044eb4ff"}
           pressedColor={"#0060e6ff"}
           onPress={() => router.push("/notes")}
